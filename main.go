@@ -1,15 +1,30 @@
 package main
-
+//export GOPROXY=https://goproxy.io
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
+	"go_restful_api/config"
 	"go_restful_api/router"
 	"log"
 	"net/http"
 	"time"
 )
 
+var cfg = pflag.StringP("config", "c", "", "apiserver config file path")
+
 func main()  {
+
+	pflag.Parse()
+
+	//读取配置项
+	if err := config.Init(*cfg); err != nil {
+		panic(err)
+	}
+
+	//创建gin引擎
+	gin.SetMode(viper.GetString("runmode"))
 	g := gin.New()
 	middlewares := []gin.HandlerFunc{}
 
@@ -23,13 +38,13 @@ func main()  {
 		log.Print("The router has been deployed successfully.")
 	}()
 
-	log.Printf("Start to listening the incoming requests on http address: %s", ":8080")
-	log.Printf(http.ListenAndServe(":8080", g).Error())
+	log.Printf("Start to listening the incoming requests on http address: %s", viper.GetString("addr"))
+	log.Printf(http.ListenAndServe(viper.GetString("addr"), g).Error())
 }
 
 func pingServer() error {
-	for i := 0; i < 5; i++ {
-		resp, err := http.Get("http://127.0.0.1:8080" + "/sd/health")
+	for i := 0; i < viper.GetInt("max_ping_count"); i++ {
+		resp, err := http.Get(viper.GetString("url") + viper.GetString("addr") + "/sd/health")
 		if err == nil && resp.StatusCode == 200 {
 			return nil
 		}

@@ -1,1 +1,1 @@
-# go_restful_api
+# A simple golang restful api project.

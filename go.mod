@@ -24,6 +24,8 @@ replace golang.org/x/oauth2 => github.com/golang/oauth2 v0.0.0-20190604053449-0f
 
 replace golang.org/x/lint => github.com/golang/lint v0.0.0-20190409202823-959b441ac422
 
+replace google.golang.org/grpc => github.com/grpc/grpc-go v1.22.0
+
 replace google.golang.org/api => github.com/googleapis/google-api-go-client v0.7.0
 
 replace google.golang.org/appengine => github.com/golang/appengine v1.6.1
@@ -35,12 +37,18 @@ replace golang.org/x/image => github.com/golang/image v0.0.0-20190703141733-d6a0
 go 1.13
 
 require (
+	github.com/fsnotify/fsnotify v1.4.7
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.4.0
-	github.com/golang/protobuf v1.3.2 // indirect
 	github.com/json-iterator/go v1.1.7 // indirect
+	github.com/magiconair/properties v1.8.1 // indirect
 	github.com/mattn/go-isatty v0.0.9 // indirect
+	github.com/pelletier/go-toml v1.4.0 // indirect
 	github.com/shirou/gopsutil v2.18.12+incompatible
+	github.com/spf13/afero v1.2.2 // indirect
+	github.com/spf13/jwalterweatherman v1.1.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/spf13/viper v1.4.0
 	github.com/ugorji/go v1.1.7 // indirect
 	golang.org/x/sys v0.0.0-20190924154521-2837fb4f24fe // indirect
 )
