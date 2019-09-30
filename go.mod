@@ -40,6 +40,7 @@ require (
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.4.0
+	github.com/jinzhu/gorm v1.9.11
 	github.com/json-iterator/go v1.1.7 // indirect
 	github.com/lexkong/log v0.0.0-20180607165131-972f9cd951fc
 	github.com/magiconair/properties v1.8.1 // indirect

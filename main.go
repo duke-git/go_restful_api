@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"go_restful_api/config"
+	"go_restful_api/model"
 	"go_restful_api/router"
 	"net/http"
 	"time"
@@ -22,6 +23,10 @@ func main()  {
 	if err := config.Init(*cfg); err != nil {
 		panic(err)
 	}
+
+	//init db
+	model.DB.Init()
+	defer model.DB.Close()
 
 	//创建gin引擎
 	gin.SetMode(viper.GetString("runmode"))
