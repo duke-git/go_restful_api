@@ -8,41 +8,41 @@ import (
 	"go_restful_api/model"
 	"go_restful_api/pkg/errno"
 	"go_restful_api/util"
+	"strconv"
 )
 
-//create user
-func Create(c *gin.Context)  {
-	log.Infof("User create function called. ", lager.Data{"X-Request-Id": util.GetReqID(c)})
-	var r CreateRequest
-	if err := c.Bind(&r); err != nil {
+func Update(c *gin.Context) {
+	log.Info("Update function called.", lager.Data{"X-Request-Id": util.GetReqID(c)})
+	// Get the user id from the url parameter.
+	userId, _ := strconv.Atoi(c.Param("id"))
+
+	// Binding the user data.
+	var u model.UserModel
+	if err := c.Bind(&u); err != nil {
 		handler.SendResponse(c, errno.ErrBind, nil)
 		return
 	}
 
-	u := model.UserModel{
-		BaseModel: model.BaseModel{},
-		Username:  r.Username,
-		Password:  r.Password,
-	}
+	// We update the record based on the user id.
+	u.Id = uint64(userId)
 
+	// Validate the data.
 	if err := u.Validate(); err != nil {
 		handler.SendResponse(c, errno.ErrValidation, nil)
 		return
 	}
 
+	// Encrypt the user password.
 	if err := u.Encrypt(); err != nil {
 		handler.SendResponse(c, errno.ErrEncrypt, nil)
 		return
 	}
 
-	if err := u.Create(); err != nil {
+	// Save changed fields.
+	if err := u.Update(); err != nil {
 		handler.SendResponse(c, errno.ErrDatabase, nil)
 		return
 	}
 
-	rsp := CreateResponse{
-		Username: r.Username,
-	}
-
-	handler.SendResponse(c, nil, rsp)
+	handler.SendResponse(c, nil, nil)
 }
