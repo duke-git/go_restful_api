@@ -6,8 +6,8 @@ import (
 
 //encrypts the plain text with bcrypt
 func Encrypt(source string) (string, error) {
-	hashedByptes, err := bcrypt.GenerateFromPassword([]byte(source), bcrypt.DefaultCost)
-	return string(hashedByptes), err
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(source), bcrypt.DefaultCost)
+	return string(hashedBytes), err
 }
 
 func Compare(hashedPassword, password string) error {

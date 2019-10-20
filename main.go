@@ -35,7 +35,7 @@ func main()  {
 	g := gin.New()
 
 	//add middlewares
-	router.Load(g, middleware.Loggin(), middleware.RequestId())
+	router.Load(g, middleware.Logging(), middleware.RequestId())
 
 	//启动一个协程，健康检查
 	go func() {

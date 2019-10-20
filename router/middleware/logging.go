@@ -3,6 +3,7 @@ package middleware
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lexkong/log"
 	"github.com/willf/pad"
@@ -25,7 +26,7 @@ func (w bodyLogWriter) Write(b []byte) (int, error) {
 
 // Logging is a middleware function that logs the each request.
 
-func Loggin() gin.HandlerFunc  {
+func Logging() gin.HandlerFunc  {
 	return func(c *gin.Context) {
 		start := time.Now().UTC()
 		path := c.Request.URL.Path
@@ -45,29 +46,39 @@ func Loggin() gin.HandlerFunc  {
 			bodyBytes, _ = ioutil.ReadAll(c.Request.Body)
 		}
 
+
 		//因为HTTP的请求 Body，在读取过后会被置空，所以这里读取完后会重新赋值
 		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
 
+		// The basic informations.
 		method := c.Request.Method
 		ip := c.ClientIP()
 
 		//log.Debugf("New request come in, path: %s, Method: %s, body `%s`", path, method, string(bodyBytes))
+
 		blw := &bodyLogWriter{
-			ResponseWriter: c.Writer,
 			body:           bytes.NewBufferString(""),
+			ResponseWriter: c.Writer,
 		}
+
 		c.Writer = blw
-		
+
+		fmt.Println("blw", blw.body)
+
+
+		// Continue.
 		c.Next()
-		
+
+		// Calculates the latency.
 		end := time.Now().UTC()
 		latency := end.Sub(start)
-		
+
 		code, message := -1, ""
 
 		//截获HTTP的Response更麻烦些，原理是重定向HTTP的Response到指定的IO流
 		var response handler.Response
-		if err := json.Unmarshal(blw.body.Bytes(), & response); err != nil {
+		fmt.Println("blw.body", blw.body)
+		if err := json.Unmarshal(blw.body.Bytes(), &response); err != nil {
 			log.Errorf(err, "response body can not unmarshal to model.Response struct, body: `%s`", blw.body.Bytes())
 			code = errno.InternalServerError.Code
 			message = err.Error()
