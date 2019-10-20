@@ -9,6 +9,7 @@ import (
 	"go_restful_api/config"
 	"go_restful_api/model"
 	"go_restful_api/router"
+	"go_restful_api/router/middleware"
 	"net/http"
 	"time"
 )
@@ -30,10 +31,11 @@ func main()  {
 
 	//创建gin引擎
 	gin.SetMode(viper.GetString("runmode"))
-	g := gin.New()
-	middlewares := []gin.HandlerFunc{}
 
-	router.Load(g, middlewares...)
+	g := gin.New()
+
+	//add middlewares
+	router.Load(g, middleware.Loggin(), middleware.RequestId())
 
 	//启动一个协程，健康检查
 	go func() {
