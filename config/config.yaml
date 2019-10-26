@@ -24,3 +24,7 @@ docker_db:
   addr: 127.0.0.1:3306
   username: root
   password: 1qaz2wsx
+tls:
+  addr: 8081
+  cert: config/severt.crt
+  key: config/server.key
