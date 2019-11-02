@@ -9,7 +9,7 @@ import (
 )
 
 type Database struct {
-	Self *gorm.DB
+	Self   *gorm.DB
 	Docker *gorm.DB
 }
 
@@ -25,7 +25,7 @@ func openDB(username, password, addr, name string) *gorm.DB {
 		"Local")
 
 	db, err := gorm.Open("mysql", config)
-	if err != nil{
+	if err != nil {
 		log.Errorf(err, "Database connection failed. Database name: %s", name)
 	}
 
@@ -34,11 +34,11 @@ func openDB(username, password, addr, name string) *gorm.DB {
 	return db
 }
 
-func setupDB(db *gorm.DB)  {
+func setupDB(db *gorm.DB) {
 	db.LogMode(viper.GetBool("gormlog"))
 	// 用于设置最大打开的连接数，默认值为0表示不限制.设置最大的连接数，可以避免并发太高导致连接mysql出现too many connections的错误。
 	db.DB().SetMaxOpenConns(20000)
-	db.DB().SetMaxIdleConns(0)// 用于设置闲置的连接数.设置闲置的连接数则当开启的一个连接使用完成后可以放在池里等候下一次使用。
+	db.DB().SetMaxIdleConns(0) // 用于设置闲置的连接数.设置闲置的连接数则当开启的一个连接使用完成后可以放在池里等候下一次使用。
 }
 
 func InitSelfDB() *gorm.DB {
@@ -63,14 +63,14 @@ func GetDockerDB() *gorm.DB {
 	return InitDockerDB()
 }
 
-func (db *Database) Init()  {
+func (db *Database) Init() {
 	DB = &Database{
 		Self:   GetSelfDB(),
 		Docker: GetDockerDB(),
 	}
 }
 
-func (db *Database) Close()  {
+func (db *Database) Close() {
 	DB.Self.Close()
 	DB.Docker.Close()
 }

@@ -24,7 +24,7 @@ code = 0 说明是正确返回，code > 0 说明是错误返回
 */
 
 type Errno struct {
-	Code int
+	Code    int
 	Message string
 }
 
@@ -33,10 +33,11 @@ func (err Errno) Error() string {
 }
 
 type Err struct {
-	Code int
+	Code    int
 	Message string
-	Err error
+	Err     error
 }
+
 func New(errno *Errno, err error) *Err {
 	return &Err{
 		Code:    errno.Code,

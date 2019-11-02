@@ -7,7 +7,7 @@ import (
 	"go_restful_api/pkg/token"
 )
 
-func AuthMiddleware() gin.HandlerFunc  {
+func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if _, err := token.ParseRequest(c); err != nil {
 			handler.SendResponse(c, errno.ErrTokenInvalid, nil)

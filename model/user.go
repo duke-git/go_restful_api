@@ -70,12 +70,12 @@ func (u *UserModel) Compare(pwd string) (err error) {
 
 //encrypt the password
 func (u *UserModel) Encrypt() (err error) {
-	u.Password, err =  auth.Encrypt(u.Password)
+	u.Password, err = auth.Encrypt(u.Password)
 	return
 }
 
 //validate the fields
-func (u *UserModel) Validate() error  {
+func (u *UserModel) Validate() error {
 	validate := validator.New()
 	return validate.Struct(u)
 }

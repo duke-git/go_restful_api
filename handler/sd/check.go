@@ -9,25 +9,26 @@ import (
 	"github.com/shirou/gopsutil/mem"
 	"net/http"
 )
+
 /**
  * Go语言获取系统性能数据gopsutil库: https://www.cnblogs.com/nickchen121/p/11517451.html
  * github.com/shirou/gopsutil
  */
 
 const (
-	B = 1
+	B  = 1
 	KB = 1024 * B
 	MB = 1024 * KB
 	GB = 1024 * MB
 )
 
-func HealthCheck(c *gin.Context)  {
+func HealthCheck(c *gin.Context) {
 	message := "OK"
 	c.String(http.StatusOK, "\n"+message)
 }
 
 //check the disk usage
-func DiskCheck(c *gin.Context)  {
+func DiskCheck(c *gin.Context) {
 	u, _ := disk.Usage("/")
 
 	usedMB := int(u.Used) / MB
@@ -48,12 +49,12 @@ func DiskCheck(c *gin.Context)  {
 	}
 
 	message := fmt.Sprintf("%s - Free space: %dMB (%dGB) / %dMB (%dGB) | Used: %d%%", text, usedMB, usedGB, totalMB, totalGB, usedPercent)
-	c.String(status, "\n" + message)
+	c.String(status, "\n"+message)
 
 }
 
 //checks the cpu usage
-func CUPCheck(c *gin.Context)  {
+func CUPCheck(c *gin.Context) {
 	cores, _ := cpu.Counts(false)
 
 	a, _ := load.Avg()

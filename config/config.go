@@ -11,7 +11,6 @@ type Config struct {
 	Name string
 }
 
-
 func Init(cfg string) error {
 	c := Config{Name: cfg}
 
@@ -36,8 +35,8 @@ func (c *Config) initConfig() error {
 		viper.SetConfigName("config")
 	}
 
-	viper.SetConfigType("yaml") // 设置配置文件格式为YAML
-	viper.AutomaticEnv() // 读取环境变量
+	viper.SetConfigType("yaml")     // 设置配置文件格式为YAML
+	viper.AutomaticEnv()            // 读取环境变量
 	viper.SetEnvPrefix("APISERVER") // 读取环境变量的前缀为APISERVER
 	replacer := strings.NewReplacer(".", "_")
 	viper.SetEnvKeyReplacer(replacer)
@@ -56,7 +55,7 @@ func (c *Config) watchConfig() {
 }
 
 //初始化log
-func (c *Config) initLog()  {
+func (c *Config) initLog() {
 	passLagerCig := log.PassLagerCfg{
 		Writers:        viper.GetString("log.writers"),
 		LoggerLevel:    viper.GetString("log.logger_level"),

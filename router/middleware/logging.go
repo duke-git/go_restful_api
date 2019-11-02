@@ -26,7 +26,7 @@ func (w bodyLogWriter) Write(b []byte) (int, error) {
 
 // Logging is a middleware function that logs the each request.
 
-func Logging() gin.HandlerFunc  {
+func Logging() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now().UTC()
 		path := c.Request.URL.Path
@@ -46,7 +46,6 @@ func Logging() gin.HandlerFunc  {
 			bodyBytes, _ = ioutil.ReadAll(c.Request.Body)
 		}
 
-
 		//因为HTTP的请求 Body，在读取过后会被置空，所以这里读取完后会重新赋值
 		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
 
@@ -64,7 +63,6 @@ func Logging() gin.HandlerFunc  {
 		c.Writer = blw
 
 		fmt.Println("blw", blw.body)
-
 
 		// Continue.
 		c.Next()

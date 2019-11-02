@@ -11,7 +11,7 @@ import (
 )
 
 //create user
-func Create(c *gin.Context)  {
+func Create(c *gin.Context) {
 	log.Infof("User create function called. ", lager.Data{"X-Request-Id": util.GetReqID(c)})
 	var r CreateRequest
 	if err := c.Bind(&r); err != nil {

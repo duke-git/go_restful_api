@@ -7,6 +7,7 @@ import (
 	"go_restful_api/router/middleware"
 	"net/http"
 )
+
 func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	//middleware
 	g.Use(gin.Recovery())

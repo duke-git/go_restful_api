@@ -11,7 +11,7 @@ import (
 
 // Login generates the authentication token
 // if the password was matched with the specified account.
-func Login(c *gin.Context)  {
+func Login(c *gin.Context) {
 
 	var u model.UserModel
 	if err := c.Bind(&u); err != nil {

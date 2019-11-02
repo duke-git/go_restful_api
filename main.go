@@ -1,24 +1,42 @@
 package main
+
 //export GOPROXY=https://goproxy.io
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lexkong/log"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"go_restful_api/config"
 	"go_restful_api/model"
+	v "go_restful_api/pkg/version"
 	"go_restful_api/router"
 	"go_restful_api/router/middleware"
 	"net/http"
+	"os"
 	"time"
 )
 
 var cfg = pflag.StringP("config", "c", "", "apiserver config file path")
+var version = pflag.BoolP("version", "v", false, "show version info.")
 
-func main()  {
+func main() {
 
 	pflag.Parse()
+
+	//显示version
+	if *version {
+		v := v.Get()
+		marshalled, err := json.MarshalIndent(&v, "", " ")
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			os.Exit(1)
+		}
+		fmt.Println(string(marshalled))
+		return
+	}
 
 	//读取配置项
 	if err := config.Init(*cfg); err != nil {

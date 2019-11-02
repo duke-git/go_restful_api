@@ -10,12 +10,12 @@ import (
 )
 
 var (
-	ErrMissingHeader =  errors.New("The length of the `Authorization` header is zero. ")
+	ErrMissingHeader = errors.New("The length of the `Authorization` header is zero. ")
 )
 
 //json web token context
 type Context struct {
-	ID uint64
+	ID       uint64
 	Username string
 }
 
@@ -71,10 +71,10 @@ func Sign(ctx *gin.Context, c Context, secret string) (tokenString string, err e
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id": c.ID,
+		"id":       c.ID,
 		"username": c.Username,
-		"nbf": time.Now().Unix(),
-		"iat": time.Now().Unix(),
+		"nbf":      time.Now().Unix(),
+		"iat":      time.Now().Unix(),
 	})
 
 	tokenString, err = token.SignedString([]byte(secret))
