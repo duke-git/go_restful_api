@@ -1,6 +1,8 @@
 package main
 
 //export GOPROXY=https://goproxy.io
+//性能测试 wrk -t8 -c200 -d30s --latency  "http://127.0.0.1:8080/sd/health"
+//查看函数性能参数： go tool pprof http://127.0.0.1:8080/debug/pprof/profile
 import (
 	"encoding/json"
 	"errors"
@@ -53,7 +55,11 @@ func main() {
 	g := gin.New()
 
 	//add middlewares
-	router.Load(g, middleware.Logging(), middleware.RequestId())
+	router.Load(
+		g,
+		//middleware.Logging(), //todo 影响性能，可以去掉
+		middleware.RequestId(), //todo 影响性能，可以去掉
+	)
 
 	//启动一个协程，健康检查
 	go func() {

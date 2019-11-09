@@ -15,8 +15,8 @@ import (
 func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	//middleware
 	g.Use(gin.Recovery())
-	g.Use(middleware.NoCache)
-	g.Use(middleware.Options)
+	g.Use(middleware.NoCache) //todo 影响性能，可以去掉
+	g.Use(middleware.Options) //todo 影响性能，可以去掉
 	g.Use(middleware.Secure)
 	g.Use(mw...)
 
