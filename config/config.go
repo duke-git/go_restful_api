@@ -4,6 +4,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/lexkong/log"
 	"github.com/spf13/viper"
+	"os"
 	"strings"
 )
 
@@ -28,16 +29,25 @@ func Init(cfg string) error {
 }
 
 func (c *Config) initConfig() error {
-	if c.Name != "" {
-		viper.SetConfigFile(c.Name) // 如果指定了配置文件，则解析指定的配置文件
+
+	viper.AddConfigPath("./config")
+	viper.SetConfigType("yaml")
+
+	//需要设置环境变量export GO_ENV="dev/test/production/"
+	env := os.Getenv("GO_ENV")
+	if env != "" {
+		viper.SetConfigName(env)
 	} else {
-		viper.AddConfigPath("config") // 如果没有指定配置文件，则解析默认的配置文件
-		viper.SetConfigName("config")
+		log.Warn("Can not read config file, env variable GO_ENV is not be set. will use default config file(default.yaml).")
+		viper.SetConfigName("default")
 	}
 
-	viper.SetConfigType("yaml")     // 设置配置文件格式为YAML
-	viper.AutomaticEnv()            // 读取环境变量
-	viper.SetEnvPrefix("APISERVER") // 读取环境变量的前缀为APISERVER
+	if c.Name != "" {
+		viper.SetConfigFile(c.Name) // 如果指定了配置文件，则解析指定的配置文件
+	}
+	//viper.AutomaticEnv()            // 读取环境变量
+	//viper.SetEnvPrefix("APISERVER") // 读取环境变量的前缀为APISERVER
+
 	replacer := strings.NewReplacer(".", "_")
 	viper.SetEnvKeyReplacer(replacer)
 	if err := viper.ReadInConfig(); err != nil {
