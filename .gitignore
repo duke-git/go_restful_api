@@ -3,3 +3,4 @@ log/*
 ./go_restful_api
 ./cpu.profile
 ./util.test
+./tmp
