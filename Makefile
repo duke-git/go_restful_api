@@ -13,8 +13,8 @@ ldflags="-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${build
 all: gotool
 	@go build -v -ldflags ${ldflags} .
 clean:
-	rm -f apiserver
-	find . -name "[._]*.s[a-w][a-z]" | xargs -i rm -f {}
+	rm -f go_restful_api
+	find . -name "[._]*.s[a-w][a-z]" | xargs rm -f {}
 gotool:
 	gofmt -w .
 	go vet . | grep -v vendor;true

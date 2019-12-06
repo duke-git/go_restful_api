@@ -3,13 +3,13 @@ package router
 import (
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger" // gin-swagger middleware
+	_ "go_restful_api/docs"
 	"go_restful_api/handler/sd"
 	"go_restful_api/handler/user"
 	"go_restful_api/router/middleware"
-	_ "go_restful_api/docs"
 	"net/http"
-	"github.com/swaggo/gin-swagger" // gin-swagger middleware
-	"github.com/swaggo/files"
 )
 
 func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
@@ -33,7 +33,6 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 	// api for authentication functionalities
 	g.POST("/login", user.Login)
-
 
 	u := g.Group("/v1/user")
 	u.Use(middleware.AuthMiddleware())

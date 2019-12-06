@@ -6,7 +6,7 @@ package util
  * 生成调用函数性能图：go test -bench=".*" -cpuprofile=cpu.profile ./util
  * 查看性能数据：go tool pprof util.test cpu.profile
  * 查看测试覆盖率：
-*/
+ */
 import "testing"
 
 func TestGenShortId(t *testing.T) {
